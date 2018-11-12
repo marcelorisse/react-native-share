@@ -1,6 +1,8 @@
 package cl.json.social;
 
 import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.ComponentName;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
@@ -20,6 +22,12 @@ public class WhatsAppShare extends SingleShareIntent {
     public void open(ReadableMap options) throws ActivityNotFoundException {
         super.open(options);
         //  extra params here
+        if (WhatsAppShare.hasValidKey("wa_number", options)) {
+            this.getIntent().setAction(Intent.ACTION_SEND);
+            this.getIntent().setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
+            this.getIntent().putExtra("jid", options.getString("wa_number") + "@s.whatsapp.net");
+        }
+
         this.openIntentChooser();
     }
     @Override

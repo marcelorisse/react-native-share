@@ -42,6 +42,11 @@ public abstract class ShareIntent {
             this.getIntent().putExtra(Intent.EXTRA_SUBJECT, options.getString("subject"));
         }
 
+        if (ShareIntent.hasValidKey("direct", options)) {
+            this.getIntent().setAction(Intent.ACTION_SENDTO);
+            this.getIntent().putExtra(Intent.EXTRA_SUBJECT, options.getString("direct"));
+        }
+
         if (ShareIntent.hasValidKey("title", options) ) {
             this.chooserTitle = options.getString("title");
         }
